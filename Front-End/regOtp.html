@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="../assets/images/car.png">
+<title>Authentication</title>
+<style>
+	body{
+		background-color: #5f4dee;
+	}
+	.container {
+	width: 35%;
+    height: 65%;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    background-color: #5f4dee;
+    color: #FFF;
+    border-radius: 12px;
+	}
+
+	.headingOTP{
+	color: #FFF;
+    position: absolute;
+    top: 24%;
+    left: 36%;
+    z-index: 9999;
+    font-family: Copperplate, Papyrus, fantasy;
+	}
+
+	#number, #verificationcode {
+		position: relative;
+    padding: 1rem 0 0.25rem 0;
+    margin: 0.5rem 0;
+    border: none;
+    outline: 0;
+    font-size: 1.3rem;
+    color: #fff;
+    background-color:#5f4dee;
+	border-bottom: 2px solid #FFF;
+		margin-top: 111px;
+        width: 295px;
+		margin-left:5px;
+	}
+	#recaptcha-container {
+		margin-bottom: 5px;
+	}
+	#send, #verify {
+		width: 303px;
+    height: 40px;
+    outline: none;
+    background: #080;
+    color: #FFF;
+    border: none;
+    border-radius: 6px;
+	cursor:pointer;
+	}
+	.p-conf, .n-conf {
+		width: 194px;
+		border: 2px solid green;
+		border-radius: 4px;
+		padding: 16px 27px;
+		height:23px;
+		margin: 11px 55px;
+		background-color: rgba(0, 249, 12, 0.5);
+		display: none;
+	}
+	.n-conf {
+		border-color: red;
+		background-color: rgba(255, 0, 4, 0.5);
+	}
+	#sender{
+		margin-left: 45px;
+		margin-top:60px
+	}
+	.myimg{
+		position: absolute;
+    top: -50px;
+    left: 370px;
+	}
+	#verificationcode{
+		left: 25px;
+    margin-top: 110px;
+	}
+	#verify{
+		margin-left: 26px;
+    margin-top: 5px;
+	}
+	
+</style>
+</head>
+
+<body>
+<h2 class="headingOTP">Verify Your Phone Number</h2>
+	<div class="container">
+		
+		<div class="myimg"> <img src="../assets/images/otp.png">   </div>
+		<div id="sender">
+			<input type="text" id="number" placeholder="" value="+20" autocomplete="off" autofill="off" disabled>
+			<div id="recaptcha-container"></div>
+			<input type="button" id="send" value="Send OTP" onClick="phoneAuth()">
+		</div>
+		<div id="verifier" style="display: none">
+			<input type="text" id="verificationcode" placeholder="" autocomplete="off" autofill="off">
+			<input type="button" id="verify" value="Verify" onClick="codeverify()">
+			<div class="p-conf">Authentication is done successfully</div>
+			<div class="n-conf">The Verfication code is wrong</div>
+		</div>
+	</div>
+<!--	add firebase SDK-->
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+<script>
+	// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyC3MIN64hy_oTQfQWUHl0lID-CJkIfci0M",
+  authDomain: "yt-project-a29f8.firebaseapp.com",
+  projectId: "yt-project-a29f8",
+  storageBucket: "yt-project-a29f8.appspot.com",
+  messagingSenderId: "159898773748",
+  appId: "1:159898773748:web:2985334de4f06ff73356a1",
+  measurementId: "G-DLWR9M5SJC"
+};
+	firebase.initializeApp(firebaseConfig);
+render();
+function render(){
+	window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+	recaptchaVerifier.render();
+}
+	// function for send message
+function phoneAuth(){
+	var number = document.getElementById('number').value;
+	firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier).then(function(confirmationResult){
+		window.confirmationResult = confirmationResult;
+		coderesult = confirmationResult;
+		document.getElementById('sender').style.display = 'none';
+		document.getElementById('verifier').style.display = 'block';
+	}).catch(function(error){
+		alert(error.message);
+	});
+}
+	// function for code verify
+function codeverify(){
+	var code = document.getElementById('verificationcode').value;
+	coderesult.confirm(code).then(function(){
+		document.getElementsByClassName('p-conf')[0].style.display = 'block';
+		setTimeout(function(){location.href="client.html";}, 2000);
+	}).catch(function(){
+		document.getElementsByClassName('n-conf')[0].style.display = 'block';
+		
+	})
+}
+
+var PhoneNo = sessionStorage.getItem("PhoneNo");
+console.log(PhoneNo);
+document.getElementById("number").value ="+2"+PhoneNo;
+
+</script>
+</body>
+</html>

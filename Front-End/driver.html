@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Driver</title>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+	  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+      <link rel="shortcut icon" href="../assets/images/favicon.ico" />
+      <link rel="stylesheet" href="../assets/css/backend-plugin.min.css">
+      <link rel="stylesheet" href="../assets/css/backend.css">
+      <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="../assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
+      <link rel="stylesheet" href="../assets/vendor/remixicon/fonts/remixicon.css"> 
+     
+<style>
+body{
+    margin-top:20px;
+    background-color: #f0f2f5;
+}
+.dropdown-list-image {
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.dropdown-list-image img {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.btn-light {
+    color: #2cdd9b;
+    background-color: #e5f7f0;
+    border-color: #d8f7eb;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 29px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2cdd9b;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2cdd9b;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 29px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+#con { 
+width: 10px;}
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+p{
+	font-family: 'Poppins', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.7;
+	color: #1f2029;
+}
+
+.section{
+  position: relative;
+  width: 100%;
+  display: block;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+
+[type="checkbox"]:checked,
+[type="checkbox"]:not(:checked){
+  position: absolute;
+  left: -9999px;
+}
+.modal-btn:checked + label,
+.modal-btn:not(:checked) + label {
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 2;
+  height: 50px;
+  transition: all 200ms linear;
+  border-radius: 4px;
+  width: 100px;
+  letter-spacing: 1px;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  text-align: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+  border: none;
+  cursor: pointer;
+  background-color: #102770;
+  color: #ffeba7;
+  box-shadow: 0 12px 35px 0 rgba(16,39,112,.25);
+}
+.modal-btn:not(:checked) + label:hover{
+  background-color: #ffeba7;
+  color: #102770;
+}
+.modal-btn:checked + label .uil,
+.modal-btn:not(:checked) + label .uil{
+	margin-left: 10px;
+	font-size: 18px;
+}
+.modal-btn:checked + label:after,
+.modal-btn:not(:checked) + label:after{
+  position: fixed;
+  top: 50px;
+  right: 30px;
+  z-index: 110;
+  width: 40px;
+  /*display: none;*/
+  border-radius: 3px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 18px;
+  background-color: #ffeba7;
+  color: #102770;
+  font-family: 'unicons';
+  content: 'X'; 
+  box-shadow: 0 12px 25px 0 rgba(16,39,112,.25);
+  transition: all 200ms linear;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+}
+.modal-btn:checked + label:hover:after,
+.modal-btn:not(:checked) + label:hover:after .button2:hover{
+  background-color: #102770;
+  color: #ffeba7;
+}
+.modal-btn:checked + label:after{
+  transition: opacity 300ms 300ms ease, transform 300ms 300ms ease, background-color 250ms linear, color 250ms linear;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.modal{
+  position: fixed;
+  display: block;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  overflow-x: hidden;
+  background-color: rgba(31,32,41,.75);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 250ms 700ms ease;
+}
+.modal-btn:checked ~ .modal{
+  pointer-events: auto;
+  opacity: 1;
+  transition: all 300ms ease-in-out;
+}
+.modal-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+  padding-bottom: 20px;
+  background-color: #fff;
+    -ms-flex-item-align: center;
+    align-self: center;
+    box-shadow: 0 12px 25px 0 rgba(199,175,189,.25);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 250ms 250ms ease, transform 300ms 250ms ease;
+}
+
+.modal-wrap p {
+  padding: 20px 30px 0 30px;
+}
+.modal-btn:checked ~ .modal .modal-wrap{
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 250ms 500ms ease, transform 350ms 500ms ease;
+}
+
+@media screen and (max-width: 500px) {
+	.modal-wrap {
+		width: calc(100% - 40px);
+		padding-bottom: 15px;
+	}
+	.modal-wrap p {
+	  padding: 15px 20px 0 20px;
+	}
+}
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  position: relative;
+  left: 140px;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 12px;
+}
+.button2 {
+  /*background-color: #4CAF50; /* Green 
+  
+  color: white;*/
+  position: relative;
+  right: 10px;
+  border: none;
+  /*padding: -5px 5px;*/
+  height: 50px;
+  width: 100px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.button2:hover{
+
+    background-color: #102770;
+  color: #ffeba7;
+
+}
+ .iq-menu li a:hover{
+            background-color:#f4f5fa;
+            color:#FFF
+        }
+        #mode a {
+            background-color: #17aedf;
+    color: #FFF;
+    border-radius: -4px;
+    margin-left: -3px;
+        }
+        #mode a:hover {
+            background-color:#21a0c9;
+        }
+        body{
+          background-color:#FFF
+        }
+       
+        
+</style>
+
+     </head>
+
+  <body onload = "table();" class="  ">
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+    <!-- loader Start -->
+    <div id="loading">
+          <div id="loading-center">
+          </div>
+    </div>
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+    <div class="wrapper">
+      
+      <div class="iq-sidebar  sidebar-default ">
+          <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
+              <a href="../backend/Login.html" class="header-logo">
+                  <img src="../assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo"><h5 class="logo-title light-logo ml-3">Driver</h5>
+              </a>
+              <div class="iq-menu-bt-sidebar ml-0">
+                  <i class="las la-bars wrapper-menu"></i>
+              </div>
+          </div>
+          <div class="data-scrollbar" data-scroll="1">
+              <nav class="iq-sidebar-menu">
+                  <ul id="iq-sidebar-toggle" class="iq-menu">    
+                      <li class="active">
+                          <a href="Driver.html" class="svg-icon">                        
+                              <svg  class="svg-icon" id="p-dash1" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line>
+                              </svg>
+                              <span class="ml-4">Home</span>
+                          </a>
+                      </li>
+                      <li class="">
+                          <a href="../backend/TripsHistoryDriver.html" class="svg-icon">                        
+                          <svg class="svg-icon" id="p-dash4" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                              </svg>
+                              <span class="ml-4">Trips History</span>
+                          </a>
+                      </li>
+                      
+                      <li class="">
+                          <a href="../backend/ProfileDriver.html" class="svg-icon">                        
+                          <svg class="svg-icon" id="p-dash4" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                              </svg>
+                              <span class="ml-4">My Profile</span>
+                          </a>
+                      </li>
+                      
+                      <li class="">
+                          <a href="../backend/walletDriver.html" class="svg-icon">                        
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                                    </svg> 
+                              <span class="ml-4">My Wallet</span>
+                          </a>
+                      </li>
+
+                      <li class="">
+                          <a href="../backend/Login.html" class="svg-icon">                        
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+                            <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                          </svg>
+                              <span class="ml-4">Logout</span>
+                          </a>
+                      </li>
+
+                      <li id="mode" class="" style="margin-top: 100px">
+                          <a href="../backend/client.html" class="svg-icon">                        
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                        </svg>
+                              <span class="ml-4">Passenger Mode</span>
+                          </a>
+                      </li>
+                      
+                      
+                  </ul>
+              </nav>
+              
+              <div class="p-3"></div>
+          </div>
+          </div>      <div class="iq-top-navbar">
+          <div class="iq-navbar-custom">
+              <nav class="navbar navbar-expand-lg navbar-light p-0">
+                  <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
+                      <i class="ri-menu-line wrapper-menu"></i>
+                      <a href="../backend/Login.html" class="header-logo">
+                          <img src="../assets/images/logo.png" class="img-fluid rounded-normal" alt="logo">
+                          <h5 class="logo-title ml-3">Ridesharing</h5>
+      
+                      </a>
+                  </div>
+                  <div class="iq-search-bar device-search">
+                      <form action="#" class="searchbox">
+                          <a class="search-link" href="#"><i class="ri-search-line"></i></a>
+                          <input type="text" class="text search-input" placeholder="Search here...">
+                      </form>
+                  </div>
+                  <!-- 000000000000000000000000000000000  BUTTON  00000000000000000000000000000000000-->
+
+                  <div class="section full-height">
+                        <input type="button" class="button2" id='offline' value="Offline" onclick="offline()">
+                        <input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn" ><!--onclick="online()"-->
+
+                        <label for="modal-btn" id="online" onclick="online()">Online</label > 
+                        <script>
+                                sessionStorage.setItem("online", false);
+                                document.getElementById("modal-btn").disabled=false;
+                                var i= document.getElementById("online");
+                                i.disabled=false;
+                                i.style.backgroundColor ='#E7E4E4';
+                                document.getElementById("modal-btn").style.backgroundColor='#E7E4E4';
+                                i.style.color='black';
+                                var i= document.getElementById("offline");
+                                i.disabled=true;
+                                i.style.backgroundColor ='#102770';
+                                i.style.color='#ffeba7';
+                                var table=document.getElementById('table');
+                                //table.style.display="none";
+
+
+                            function online(){
+                                var session=1;
+                                //alert(sessionStorage.getItem('Driver'));
+                                if(session==1){
+                                sessionStorage.setItem("online", true);
+                                
+                                var i= document.getElementById("modal-btn");
+                                //i.checked=false;
+                               i.disabled=true;
+                               i.style.backgroundColor ='#102770';
+                               i.style.color='#ffeba7';
+
+
+                               var y= document.getElementById("online");
+                               y.style.backgroundColor ='#102770';
+                               y.style.color='#ffeba7';
+                               y.disabled=true;
+
+                                var ii= document.getElementById("offline");
+                                ii.disabled=false;
+                                ii.style.backgroundColor ='#E7E4E4';
+                                ii.style.color='black';
+
+                                var table=document.getElementById('table');
+                                table.style.display="block";
+                            
+                            }
+
+                            }
+                            function offline(){
+                                sessionStorage.setItem("online", false);
+                                document.getElementById("modal-btn").disabled=false;
+                                var i= document.getElementById("online");
+                                i.disabled=false;
+                                i.style.backgroundColor ='#E7E4E4';
+                                document.getElementById("modal-btn").style.backgroundColor='#E7E4E4';
+                                i.style.color='black';
+                                var i= document.getElementById("offline");
+                                i.disabled=true;
+                                i.style.backgroundColor ='#102770';
+                                i.style.color='#ffeba7';
+                                var table=document.getElementById('table');
+                                table.style.display="none";
+
+                            }
+                        </script>
+                        
+                        <div class="modal">		
+                            <div class="modal-wrap">	
+                                   <center><br><h4>Information</h4></center> 
+                                <p>Your request is being processed, please wait for about 24 hours</p>
+                              
+                            </div>			          		
+                        </div>
+                        
+                          <div class="modal">		
+                            <div class="modal-wrap">	
+                                   <center><br><h4>Information</h4></center> 
+                                <p>To start earing you need to fill personal informations</p>
+                                <form action="information.html">
+                                    <input type="submit" class="button" value="Confirm">
+                                    <!--input type="button" class="button2" value="Cancel"-->
+                                </form>
+                                
+                            </div>			          		
+                        </div>
+                  </div>
+                  <!-- 000000000000000000000000000000000  BUTTON  00000000000000000000000000000000000-->
+                  <div class="d-flex align-items-center">
+                      <button class="navbar-toggler" type="button" data-toggle="collapse"
+                          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                          aria-label="Toggle navigation">
+                          <i class="ri-menu-3-line"></i>
+                      </button>
+                      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                          <ul class="navbar-nav ml-auto navbar-list align-items-center">
+
+                              <li class="nav-item nav-icon search-content">
+                                  <a href="#" class="search-toggle rounded" id="dropdownSearch" data-toggle="dropdown"
+                                      aria-haspopup="true" aria-expanded="false">
+                                      <i class="ri-search-line"></i>
+                                  </a>
+                                  <div class="iq-search-bar iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownSearch">
+                                      <form action="#" class="searchbox p-2">
+                                          <div class="form-group mb-0 position-relative">
+                                              <input type="text" class="text search-input font-size-12"
+                                                  placeholder="type here to search...">
+                                              <a href="#" class="search-link"><i class="las la-search"></i></a>
+                                          </div>
+                                      </form>
+                                  </div>
+                              </li>
+                             
+                              <li class="nav-item nav-icon dropdown caption-content">
+                                  <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4"
+                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <img src="../assets/images/user/1.png" class="img-fluid rounded" alt="user">
+                                  </a>
+                                  
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </nav>
+          </div>
+      </div>
+          <div class="content-page">
+     <div class="container-fluid">
+    
+       <div id="table" style="display: none;"></div>
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />        
+        </div>
+        
+        <!-- Page end  -->
+    </div>
+      </div>
+    </div>
+    
+    <script src="../assets/js/backend-bundle.min.js"></script>
+    
+    <!-- Table Treeview JavaScript -->
+    <script src="../assets/js/table-treeview.js"></script>
+    
+    <!-- Chart Custom JavaScript -->
+    <script src="../assets/js/customizer.js"></script>
+    
+    <!-- Chart Custom JavaScript -->
+    <script async src="../assets/js/chart-custom.js"></script>
+    
+    <!-- app JavaScript -->
+    <script src="../assets/js/app.js"></script>
+    <script type="text/javascript">
+              function table(){
+
+                    const xhttp = new XMLHttpRequest();
+                    
+                    xhttp.onload = function(){
+                    //
+                    document.getElementById("table").innerHTML = this.responseText;
+                    }
+                    xhttp.open("GET", "system.html");
+                    xhttp.send();
+                    //
+                }
+
+                setInterval(function(){
+                    //await new Promise(r => setTimeout(r, 10));
+                    table()
+                }, 10000);
+            </script>
+  </body>
+</html>

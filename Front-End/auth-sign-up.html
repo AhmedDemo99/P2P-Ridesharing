@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Ride NOW</title>
+      
+      <!-- Favicon -->
+      <link rel="icon" href="../assets/images/car.png">
+      <link rel="stylesheet" href="../assets/css/backend-plugin.min.css">
+      <link rel="stylesheet" href="../assets/css/backend.css">
+      <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="../assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
+      <link rel="stylesheet" href="../assets/vendor/remixicon/fonts/remixicon.css"> 
+      <style>
+body{
+    background-color:#FFF;
+}
+.custom-control .remb
+{
+  color:#FFF
+}
+.p-3 {
+   margin-top:30px
+}
+.pass-icon{
+   position: absolute;
+    right: 14px;
+    top: 16px;
+    cursor: pointer;
+    z-index: 999;
+    color: #5f4dee;
+    display:none;
+}
+.pass-icon:hover{
+  color: #080;
+}
+.pass-err{
+    color: #080;
+    position: absolute;
+    z-index: 9999;
+    top: 312px;
+    left: 235px;
+}
+.remb{
+   margin-top: 3px;
+}
+.btn-primary {
+   
+    margin-top: 35px;
+}
+.custom-control{
+   position:absolute;
+}
+.custom-control-input {
+    height: 10.75rem;
+    overflow: hidden;   
+    }
+.errors ul 
+{
+  display: none;
+}
+.errors ul li 
+{
+  
+  list-style: none;
+    margin-left: 10px;
+    padding: 1px;
+    display: inline-block;
+    float: left;
+    width: 36%;
+    margin-left: -23px;
+    margin-right: 25px;
+    margin-top:-9px
+}
+
+.floating-input:not(:placeholder-shown) ~ label{
+    padding: 0px 13px;
+    border-radius: 10px;
+    top: -3px;
+}
+
+</style>
+   
+   
+   </head>
+  <body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+          <div id="loading-center">
+          </div>
+    </div>
+    <!-- loader END -->
+    
+      <div class="wrapper">
+      <section class="login-content">
+         <div class="container">
+            <div class="row align-items-center justify-content-center height-self-center">
+               <div class="col-lg-8">
+                  <div class="card auth-card">
+                     <div class="card-body p-0">
+                        <div class="d-flex align-items-center auth-content demo">
+                           <div class="col-lg-7 align-self-center">
+                              <div class="p-3">
+                                 <h2 class="mb-2">Sign Up</h2>
+                                 <p>Create new account to start ridesharing.</p>
+                                 <form  method="POST" action="regOtp.html">
+                                    <div class="row">
+                                       <div class="col-lg-6">
+                                          <div class="floating-label form-group">
+                                             <input id="Fname" class="floating-input form-control" type="text" name="FullName" placeholder=" " required onkeydown="preventNumberInput(event)"
+                      onkeyup="preventNumberInput(event)"/>
+                                             <label>First Name</label>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-6">
+                                          <div class="floating-label form-group">
+                                             <input id="Lname" class="floating-input form-control" name="LastName" type="text" placeholder=" " required onkeydown="preventNumberInput(event)"
+                      onkeyup="preventNumberInput(event)"/>
+                                             <label>Last Name</label>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-6">
+                                          <div class="floating-label form-group">
+                                             <input id="email" class="floating-input form-control" name="Email" type="email" placeholder=" " required>
+                                             <label>Email</label>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-6">
+                                          <div class="floating-label form-group">
+                                             <input id="phone" class="floating-input form-control" id="phone" name="Phone" type="text" placeholder=" "
+                                              required minlength="11" maxlength="11" onkeypress="return onlyNumberKey(event)">
+                                             <label>Phone No.</label>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-6">
+                                          <div class="floating-label form-group">
+                                             <input id="password" class="floating-input form-control" name="Password" type="password"
+                                              placeholder=" " required oninput="validate()">
+                                             <label>Password</label>
+                                             <span id="toggle" class="fa fa-fw fa-eye-slash pass-icon" onclick="showhide();"></span>
+                                          </div>
+                                       </div>
+                                       <div class="col-lg-6">
+                                          <div class="floating-label form-group">
+                                             <input id="confirm-password" class="floating-input form-control" type="password" 
+                                              placeholder=" " required onkeyup="validate_password()">
+                                             <label>Confirm Password</label>
+                                             <span id="toggle2" class="fa fa-fw fa-eye-slash pass-icon co" onclick="showhide2();"></span>
+                                          </div>
+                                       </div>
+
+                                       <span id="wrong_pass_alert" class="pass-err"></span>
+                                       <!-- Constraints of password-->
+                                       <div class="errors" id="errors">
+                                          <ul id="list">
+                                                <li id="upper">Uppercase</li>   
+                                                <li id="lower">Lowercase</li>
+                                                <li id="special_char">special symbol</li>  
+                                 
+                                                <li id="length">8-characters</li>
+                                          </ul>
+                                       </div>
+                                       <!-- End Constraints of password-->
+                                       <div class="col-lg-12">
+                                        
+                                           <!--
+                                          <select name="Type" id="cars">
+                                                <option value="0">Client</option>
+                                                <option value="1">Driver</option>
+                                          </select>
+                                          -->
+                                             <!--label class="custom-control-label" for="customCheck1">Client or Driver</label-->
+                                          
+                                       </div>
+
+
+
+                                       <div class="col-lg-12">
+                                          <div class="custom-control custom-checkbox mb-3">
+                                             <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                             <label class="custom-control-label remb" for="customCheck1">I agree with the terms of use</label>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <button id="sub" type="submit" name="submit" class="btn btn-primary">Sign Up</button>
+                                    <p class="mt-3">
+                                       Already have an Account <a href="Login.html" class="text-primary">Sign In</a>
+                                    </p>
+                                 </form>
+                                 
+                              </div>
+                           </div>
+                           <div class="col-lg-5 content-right">
+                              <img src="../assets/images/signup.png" class="img-fluid image-right" alt="">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      </div>
+    
+    <!-- Backend Bundle JavaScript -->
+    <script src="../assets/js/backend-bundle.min.js"></script>
+    
+    <!-- Table Treeview JavaScript -->
+    <script src="../assets/js/table-treeview.js"></script>
+    
+    <!-- Chart Custom JavaScript -->
+    <script src="../assets/js/customizer.js"></script>
+    
+    <!-- Chart Custom JavaScript -->
+    <script async src="../assets/js/chart-custom.js"></script>
+    
+    <!-- app JavaScript -->
+    <script src="../assets/js/app.js"></script>
+    <script>
+
+   /*password constraints validation*/
+var pass = document.getElementById("password");
+var confirm_pass = document.getElementById("confirm-password");
+
+
+pass.oninput=function validate(){
+document.getElementById('toggle').style.display="block";
+document.getElementById('toggle2').style.display="block";
+var upper = document.getElementById("upper");
+var lower = document.getElementById("lower");
+var len = document.getElementById("length");
+var sp_char = document.getElementById("special_char");
+
+
+if(pass.value.match(/[A-Z]/)){
+  upper.style.color="green"
+}
+else{
+  upper.style.color="red";
+  document.getElementById('sub').disabled = true;
+   document.getElementById('sub').style.opacity = (0.4);
+}
+
+
+if(pass.value.match(/[a-z]/)){
+  lower.style.color="green"
+}
+else{
+  lower.style.color="red";
+  document.getElementById('sub').disabled = true;
+   document.getElementById('sub').style.opacity = (0.4);
+}
+
+
+if(pass.value.match(/[!\@\#\$\\%\&\*\(\)\_\-\+\=\?\.\,\<\>]/)){
+  sp_char.style.color="green"
+}
+else{
+  sp_char.style.color="red";
+  document.getElementById('sub').disabled = true;
+   document.getElementById('sub').style.opacity = (0.4);
+}
+
+if(pass.value.length > 8){
+  len.style.color="green";
+  
+}
+else{
+  len.style.color="red";
+  document.getElementById('sub').disabled = true;
+   document.getElementById('sub').style.opacity = (0.4);
+}
+
+
+}
+
+pass.addEventListener('focus',myULfun);
+function myULfun(){
+    document.getElementById('list').style.display="block";
+}
+
+
+/*End password constraints*/
+
+function validate_password() {
+
+var pass = document.getElementById('password').value;
+var confirm_pass = document.getElementById('confirm-password').value;
+if (pass != confirm_pass) {
+   document.getElementById('wrong_pass_alert').style.color = 'red';
+   document.getElementById('wrong_pass_alert').innerHTML
+   = 'Use same password';
+   document.getElementById('sub').disabled = true;
+   document.getElementById('sub').style.opacity = (0.4);
+} else {
+   document.getElementById('wrong_pass_alert').style.color = 'green';
+   document.getElementById('wrong_pass_alert').innerHTML =
+      'Password Matched';
+   document.getElementById('sub').disabled = false;
+   document.getElementById('sub').style.opacity = (1);
+}
+}
+
+
+
+function showhide() {
+
+var type = document.getElementById("password").getAttribute("type");
+
+if (type == "password")
+{
+    //Change type attribute
+    document.getElementById("password").setAttribute("type", "text");
+    document.getElementById("toggle").classList.add('fa-eye');
+    document.getElementById("toggle").classList.remove('fa-eye-slash');
+} else
+{
+    //Change type attribute
+    document.getElementById("password").setAttribute("type", "password");
+    document.getElementById("toggle").classList.add('fa-eye-slash');
+    document.getElementById("toggle").classList.remove('fa-eye');
+}
+
+}
+function showhide2() {
+
+var type = document.getElementById("confirm-password").getAttribute("type");
+
+if (type == "password")
+{
+    //Change type attribute
+    document.getElementById("confirm-password").setAttribute("type", "text");
+    document.getElementById("toggle2").classList.add('fa-eye');
+    document.getElementById("toggle2").classList.remove('fa-eye-slash');
+} else
+{
+    //Change type attribute
+    document.getElementById("confirm-password").setAttribute("type", "password");
+    document.getElementById("toggle2").classList.add('fa-eye-slash');
+    document.getElementById("toggle2").classList.remove('fa-eye');
+}
+}
+      var Fname = document.getElementById("Fname");
+      var Lname = document.getElementById("Lname");
+      var Email = document.getElementById("email");
+      var Phone = document.getElementById("phone");
+      var Password = document.getElementById("password");
+      var ConfirmPass = document.getElementById("confirm-password");
+
+document.getElementById("sub").onclick = function () {
+
+var PhoneNo =document.getElementById("phone").value;
+sessionStorage.setItem("PhoneNo", PhoneNo);
+if(Fname.value !=""){
+if(Lname.value !=""){
+if(Email.value !=""){
+if(Phone.value !=""){
+if(Password.value !=""){
+if(ConfirmPass.value !=""){
+                  location.href = "regOtp.html";
+               }
+               
+}
+} 
+}}} 
+else {
+            alert("Please fill required information to Signup");
+            
+         } 
+      
+
+
+};
+
+
+function preventNumberInput(e){
+  var keyCode = (e.keyCode ? e.keyCode : e.which);
+  if (keyCode > 47 && keyCode < 58 || keyCode > 95 && keyCode < 107 ){
+      e.preventDefault();
+  }
+}
+function onlyNumberKey(evt) {
+          
+          // Only ASCII character in that range allowed
+          var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+          if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+              return false;
+          return true;
+      }
+
+
+    </script>
+  </body>
+</html>

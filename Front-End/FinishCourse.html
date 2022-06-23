@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Ridesharing</title>
+      
+      <!-- Favicon -->
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+	  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
+
+
+      <link rel="shortcut icon" href="../assets/images/favicon.ico" />
+      <link rel="stylesheet" href="../assets/css/backend-plugin.min.css">
+      <link rel="stylesheet" href="../assets/css/backend.css?v=1.0.0">
+      <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="../assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
+      <link rel="stylesheet" href="../assets/vendor/remixicon/fonts/remixicon.css">  
+    <style>
+      .ST{
+        position:absolute;
+            padding:5px 10px;
+            width:110px;
+            top:980px;
+            right:570px
+      }
+      .ET{
+            position:absolute;
+            padding:5px 10px;
+            width:110px;
+            top:980px;
+            right:420px
+      }
+      .CT{
+            margin-top:70px;
+            margin-left:450px
+      }
+      .trip-proc{
+        border-radius:10px
+      }
+      
+        
+    </style>
+    
+    </head>
+  <body class="  ">
+  <div class="container p-5 my-2 bg-white border trip-proc">
+        
+        <form action="WalletDriver.html" method="post">
+        <input type="" name="Place" id="id"  value="<?=$_GET['Place']?>" style="display: none;" >
+        
+            <input type="number" name="distance" id="id"  value="<?=$_GET['distance']?>" style="display: none;" >
+            <input type="number" name="user_id"   value="<?=intval($_GET['uid'])?>" style="display: none;" >
+            <h4>The passenger accepted the trip , the passenger is waiting you</h4>
+            <center> 
+            <input type="submit"  name="submit" value="End trip"  class="btn btn-lg btn-primary ET"  ></center>
+        </form>
+        
+        
+        <form action="CancledDriver.html" method="post">
+        <input type="" name="Place" id="id"  value="<?=$_GET['Place']?>" style="display: none;" >
+        
+            <input type="number" name="distance" id="id"  value="<?=$_GET['distance']?>" style="display: none;" >
+            <input type="number" name="user_id"   value="<?=intval($_GET['uid'])?>" style="display: none;" >
+            
+            <input type="submit"  name="submit" value="Cancel"  class="btn btn-outline-warning CT"  ></center>
+        </form>
+        <button class="ST btn btn-primary" id="ST">Start trip</button>
+        
+        </div>
+        
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    
+
+    </body>
+    </html>
+
+
+
+
+
+
+
+
